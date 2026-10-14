@@ -299,6 +299,9 @@ input, select, textarea {
 }
 textarea { resize: vertical; min-height: 6rem; }
 .form-error { color: var(--err); font-weight: 500; min-height: 1.4em; font-size: 0.95rem; }
+.form-ok[hidden] { display: none; }
+.form-ok { color: var(--brand); font-weight: 600; font-size: 1.05rem; }
+.btn[disabled] { opacity: 0.6; cursor: wait; }
 .result[hidden] { display: none; }
 .result { display: grid; gap: 0.8rem; border-top: 1px solid var(--line); padding-top: 1.1rem; }
 .result p { color: var(--muted); font-size: 0.95rem; }
@@ -600,8 +603,10 @@ textarea { resize: vertical; min-height: 6rem; }
           <label for="f-details">What do you need? <span class="opt">(optional)</span></label>
           <textarea id="f-details" name="details" placeholder="Live band, speeches, dance floor, outdoor stage, anything we should know."></textarea>
         </div>
+        <input type="checkbox" name="botcheck" id="f-botcheck" tabindex="-1" autocomplete="off" style="display:none">
         <p class="form-error" id="form-error" role="alert"></p>
-        <div><button class="btn" type="submit">Prepare my enquiry</button></div>
+        <p class="form-ok" id="form-ok" role="status" hidden></p>
+        <div><button class="btn" type="submit" id="submit-btn">Send enquiry</button></div>
 
         <div class="result" id="result" hidden>
           <p>Your enquiry is ready. Copy it and email it to overdrivestudios21@gmail.com, or call 0418 587 668. Nothing is sent from this page.</p>
@@ -630,7 +635,15 @@ textarea { resize: vertical; min-height: 6rem; }
 
 <script>
 (function () {
+  // Paste your Web3Forms access key between the quotes. It is safe to leave in the page.
+  // While it says PASTE_YOUR_ACCESS_KEY_HERE the form falls back to a copy-and-email message.
+  var ACCESS_KEY = 'PASTE_YOUR_ACCESS_KEY_HERE';
+  var keySet = ACCESS_KEY && ACCESS_KEY.indexOf('PASTE_') !== 0;
+
   var form = document.getElementById('enquiry');
+  var submitBtn = document.getElementById('submit-btn');
+  var ok = document.getElementById('form-ok');
+  if (!keySet) submitBtn.textContent = 'Prepare my enquiry';
   var err = document.getElementById('form-error');
   var result = document.getElementById('result');
   var out = document.getElementById('f-out');
@@ -664,10 +677,59 @@ textarea { resize: vertical; min-height: 6rem; }
     if (val('f-phone')) lines.push('Phone: ' + val('f-phone'));
     if (val('f-email')) lines.push('Email: ' + val('f-email'));
 
-    out.value = lines.join('\n');
-    result.hidden = false;
-    copyStatus.textContent = '';
-    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    var message = lines.join('\n');
+
+    if (!keySet) {
+      out.value = message;
+      result.hidden = false;
+      copyStatus.textContent = '';
+      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      return;
+    }
+
+    if (document.getElementById('f-botcheck').checked) return;
+
+    var data = new FormData();
+    data.append('access_key', ACCESS_KEY);
+    data.append('subject', 'New website enquiry: ' + val('f-type') + ' from ' + val('f-name'));
+    data.append('from_name', 'Overdrive website');
+    data.append('name', val('f-name'));
+    if (val('f-email')) data.append('email', val('f-email'));
+    if (val('f-phone')) data.append('phone', val('f-phone'));
+    data.append('event_type', val('f-type'));
+    if (val('f-date')) data.append('event_date', prettyDate(val('f-date')));
+    if (val('f-venue')) data.append('venue', val('f-venue'));
+    if (val('f-guests')) data.append('guests', val('f-guests'));
+    if (val('f-details')) data.append('details', val('f-details'));
+    data.append('message', message);
+
+    var label = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    ok.hidden = true;
+
+    function failed() {
+      err.textContent = 'Sorry, that did not send. Please call 0418 587 668 or email overdrivestudios21@gmail.com.';
+    }
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: data
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; });
+    }).then(function (json) {
+      if (json && json.success) {
+        form.reset();
+        ok.textContent = 'Thanks, your enquiry has been sent. We will be in touch soon.';
+        ok.hidden = false;
+      } else {
+        failed();
+      }
+    }).catch(failed).then(function () {
+      submitBtn.disabled = false;
+      submitBtn.textContent = label;
+    });
   });
 
   copyBtn.addEventListener('click', function () {
