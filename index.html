@@ -377,6 +377,9 @@ textarea { resize: vertical; min-height: 6rem; }
 .lb-prev { left: max(0.5rem, env(safe-area-inset-left, 0px)); }
 .lb-next { right: max(0.5rem, env(safe-area-inset-right, 0px)); }
 body.lb-open { overflow: hidden; }
+
+.site-footer .nowrap { white-space: nowrap; }
+.site-footer .legal { flex: 1 0 100%; margin: 0; padding-top: 1.1rem; border-top: 1px solid var(--line); font-size: 0.85rem; line-height: 1.6; }
 </style>
 
 </head>
@@ -675,6 +678,7 @@ body.lb-open { overflow: hidden; }
       <span>Overdrive<br>Music Studio</span>
     </a>
     <p>Sound and lighting for events. Toowoomba, Queensland.</p>
+    <p class="legal">&copy; <span id="legal-year">2026</span> Overdrive Music Studio. <span class="nowrap">ABN 47 193 365 574.</span> All Rights Reserved.</p>
   </div>
 </footer>
 
@@ -891,6 +895,12 @@ body.lb-open { overflow: hidden; }
     var dy = e.changedTouches[0].clientY - sy;
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) show(dx < 0 ? cur + 1 : cur - 1);
   }, { passive: true });
+})();
+</script>
+<script>
+(function () {
+  var el = document.getElementById('legal-year');
+  if (el) el.textContent = new Date().getFullYear();
 })();
 </script>
 </body>
