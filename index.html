@@ -382,7 +382,8 @@ body.lb-open { overflow: hidden; }
 .site-footer .legal { flex: 1 0 100%; margin: 0; padding-top: 1.1rem; border-top: 1px solid var(--line); font-size: 0.85rem; line-height: 1.6; }
 .footer-link { color: var(--fg); font-weight: 500; text-underline-offset: 4px; }
 .nav a { white-space: nowrap; }
-@media (max-width: 860px) { .nav a:not(.btn) { display: none; } }
+@media (max-width: 860px) { .nav { gap: 0.9rem; } .nav a:not(.btn):not([href="partners.html"]) { display: none; } .nav a[href="partners.html"] { display: inline-block; font-weight: 600; } }
+@media (max-width: 360px) { .site-header .brand-link span { display: none; } }
 </style>
 
 </head>
