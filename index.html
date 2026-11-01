@@ -19,6 +19,34 @@
 <meta property="og:image" content="https://overdrivemusicstudio.com.au/og-image.png">
 <meta name="twitter:card" content="summary">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "LocalBusiness",
+ "name": "Overdrive Music Studio",
+ "url": "https://overdrivemusicstudio.com.au/",
+ "logo": "https://overdrivemusicstudio.com.au/favicon-192.png",
+ "image": "https://overdrivemusicstudio.com.au/og-image.png",
+ "description": "Sound and lighting supply, set up and operation for weddings, corporate events, festivals and more.",
+ "telephone": "+61418587668",
+ "email": "overdrivestudios21@gmail.com",
+ "taxID": "47 193 365 574",
+ "address": {
+  "@type": "PostalAddress",
+  "addressLocality": "Toowoomba",
+  "addressRegion": "QLD",
+  "addressCountry": "AU"
+ },
+ "areaServed": {
+  "@type": "Country",
+  "name": "Australia"
+ },
+ "sameAs": [
+  "https://www.facebook.com/profile.php?id=61558215059242",
+  "https://www.instagram.com/studio_overdrive/"
+ ]
+}
+</script>
 <style>
 /* Layout concept: a record-sleeve identity. Chunky offset-shadow display type lifted from the logo,
    a spinning disc in the hero, and an "input list" of event types laid out like a console channel strip. */
@@ -394,6 +422,8 @@ body.lb-open { overflow: hidden; }
 .nav a { white-space: nowrap; }
 @media (max-width: 860px) { .nav { gap: 0.9rem; } .nav a:not(.btn):not([href="partners.html"]) { display: none; } .nav a[href="partners.html"] { display: inline-block; font-weight: 600; } }
 @media (max-width: 360px) { .site-header .brand-link span { display: none; } }
+.form-note { margin: 0; font-size: 0.88rem; color: var(--muted); }
+.form-note a { color: var(--fg); text-underline-offset: 3px; }
 </style>
 
 </head>
@@ -669,6 +699,7 @@ body.lb-open { overflow: hidden; }
         <input type="checkbox" name="botcheck" id="f-botcheck" tabindex="-1" autocomplete="off" style="display:none">
         <p class="form-error" id="form-error" role="alert"></p>
         <p class="form-ok" id="form-ok" role="status" hidden></p>
+        <p class="form-note">We only use these details to reply to your enquiry. See our <a href="privacy.html">privacy policy</a>.</p>
         <div><button class="btn" type="submit" id="submit-btn">Send now</button></div>
 
         <div class="result" id="result" hidden>
@@ -694,6 +725,7 @@ body.lb-open { overflow: hidden; }
     </a>
     <p>Sound and lighting for events. Toowoomba, Queensland.</p>
     <a class="footer-link" href="partners.html">Equipment suppliers</a>
+    <a class="footer-link" href="privacy.html">Privacy policy</a>
     <p class="legal">&copy; <span id="legal-year">2026</span> Overdrive Music Studio. <span class="nowrap">ABN 47 193 365 574.</span> All Rights Reserved.</p>
   </div>
 </footer>

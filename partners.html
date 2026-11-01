@@ -414,6 +414,9 @@ body.lb-open { overflow: hidden; }
   .nav { gap: 1rem; }
 }
 @media (max-width: 600px) { .partners { grid-template-columns: minmax(0, 1fr); } .partner { min-height: 12.5rem; } .partner-name { font-size: clamp(1.4rem, 6vw, 1.9rem); } }
+.partner-name { color: var(--hl); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .partner-name { color: #e2b4f3; } }
+:root[data-theme="dark"] .partner-name { color: #e2b4f3; }
 </style>
 
 </head>
@@ -463,6 +466,7 @@ body.lb-open { overflow: hidden; }
     </a>
     <p>Sound and lighting for events. Toowoomba, Queensland.</p>
     <a class="footer-link" href="partners.html">Equipment suppliers</a>
+    <a class="footer-link" href="privacy.html">Privacy policy</a>
     <p class="legal">&copy; <span id="legal-year">2026</span> Overdrive Music Studio. <span class="nowrap">ABN 47 193 365 574.</span> All Rights Reserved.</p>
   </div>
 </footer>
